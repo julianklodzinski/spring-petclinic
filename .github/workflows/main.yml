@@ -31,8 +31,10 @@ jobs:
       - name: Build Tag and push Docker Image
         env:
           IMAGE_NAME: jmk.jfrog.io/docker/spring-petclinic:${{ github.run_number }}
+          TARGET_REPO: docker
         run: |
-          jfrog rt docker-push $IMAGE_NAME
+          jfrog rt docker-push $IMAGE_NAME --build-name=jmk-petclinic-build --build-number=${{ github.run_number }}
+
 
       - name: Publish Build info With JFrog CLI
         env:
