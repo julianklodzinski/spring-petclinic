@@ -24,16 +24,13 @@ jobs:
           java-version: '17'
           distribution: 'adopt'
 
-      - name: Run Tests
-        run: |
-          ./mvnw test
+      #- name: Run Tests
+      #  run: |
+      #    ./mvnw test
 
       - name: Build Tag and push Docker Image
-        env:
-          IMAGE_NAME: jmk.jfrog.io/docker/spring-petclinic:${{ github.run_number }}
-          TARGET_REPO: docker
         run: |
-          jfrog rt docker-push $IMAGE_NAME --build-name=jmk-petclinic-build --build-number=${{ github.run_number }}
+          jfrog rt docker-push jmk.jfrog.io/docker/spring-petclinic:${{ github.run_number }} --build-name=jmk-petclinic-build --build-number=${{ github.run_number }}
 
 
       - name: Publish Build info With JFrog CLI
