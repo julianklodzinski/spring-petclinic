@@ -24,9 +24,9 @@ jobs:
           java-version: '17'
           distribution: 'adopt'
 
-      #- name: Run Tests
-      #  run: |
-      #    ./mvnw test
+      - name: Run Tests
+        run: |
+          ./mvnw test
 
       - name: Build Container Image with Spring Boot Maven plugin
         run: |
@@ -35,10 +35,6 @@ jobs:
       - name: Push Docker Image
         run: | 
           jfrog docker push jmk.jfrog.io/docker/jmk-spring-petclinic:${{ github.run_number }}
-
-      - name: Trigger Xray Scan
-        run: |
-          jfrog xr scanschedule-start --build-name=jmk-petclinic-build --build-number=${{ github.run_number }} jmk.jfrog.io/docker/jmk-spring-petclinic:${{ github.run_number }}
 
       - name: Publish Build info With JFrog CLI
         env:
