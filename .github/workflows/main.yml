@@ -30,12 +30,15 @@ jobs:
 
       - name: Build Container Image with Spring Boot Maven plugin
         run: |
-          ./mvnw spring-boot:build-image -Dspring-boot.build-image.imageName=jmk.jfrog.io/docker/spring-petclinic:${{ github.run_number }}
+          ./mvnw spring-boot:build-image -Dspring-boot.build-image.imageName=jmk.jfrog.io/docker/jmk-spring-petclinic:${{ github.run_number }}
 
       - name: Push Docker Image
         run: | 
-          jfrog docker push jmk.jfrog.io/docker/spring-petclinic:${{ github.run_number }}
+          jfrog docker push jmk.jfrog.io/docker/jmk-spring-petclinic:${{ github.run_number }}
 
+      - name: Trigger Xray Scan
+        run: |
+          jfrog xr scanschedule-start --build-name=jmk-petclinic-build --build-number=${{ github.run_number }} jmk.jfrog.io/docker/jmk-spring-petclinic:${{ github.run_number }}
 
       - name: Publish Build info With JFrog CLI
         env:
@@ -45,3 +48,5 @@ jobs:
           jfrog rt build-collect-env
           jfrog rt build-add-git
           jfrog rt build-publish
+
+      
