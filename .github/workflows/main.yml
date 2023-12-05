@@ -30,7 +30,8 @@ jobs:
 
       - name: Build Tag and push Docker Image
         run: | 
-          jfrog rt docker-push jmk.jfrog.io/docker/spring-petclinic:${{ github.run_number }} docker
+          jfrog docker build -t jmk.jfrog.io/docker/spring-petclinic:${{ github.run_number }} .
+          jfrog docker push jmk.jfrog.io/docker/spring-petclinic:${{ github.run_number }}
 
 
       - name: Publish Build info With JFrog CLI
