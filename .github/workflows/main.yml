@@ -28,9 +28,12 @@ jobs:
       #  run: |
       #    ./mvnw test
 
-      - name: Build Tag and push Docker Image
+      - name: Build Container Image with Spring Boot Maven plugin
+        run: |
+          ./mvnw spring-boot:build-image -Dspring-boot.build-image.imageName=jmk.jfrog.io/docker/spring-petclinic:${{ github.run_number }}
+
+      - name: Push Docker Image
         run: | 
-          jfrog docker build -t jmk.jfrog.io/docker/spring-petclinic:${{ github.run_number }} .
           jfrog docker push jmk.jfrog.io/docker/spring-petclinic:${{ github.run_number }}
 
 
