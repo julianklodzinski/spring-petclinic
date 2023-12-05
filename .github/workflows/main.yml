@@ -32,7 +32,8 @@ jobs:
         env:
           IMAGE_NAME: jmk.jfrog.io/docker/spring-petclinic:${{ github.run_number }}
         run: |
-          jfrog rt docker-build --build-name=jmk-petclinic-build --build-number=${{ github.run_number }} --image-name=$IMAGE_NAME .
+          jf docker-build --build-name=jmk-petclinic-build --build-number=${{ github.run_number }} --image-name=$IMAGE_NAME .
+          jf docker push $IMAGE_NAME
 
       - name: Publish Build info With JFrog CLI
         env:
